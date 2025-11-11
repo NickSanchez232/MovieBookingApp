@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Panel{% endblock %}
+
+{% block content %}
+<h2>Admin Dashboard</h2>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5>Total Movies</h5>
+                <h2>{{ total_movies }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5>Total Users</h5>
+                <h2>{{ total_users }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <h5>Total Orders</h5>
+                <h2>{{ total_orders }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5>Total Revenue</h5>
+                <h2>${{ "%.2f"|format(total_revenue) }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 mb-3">
+        <a href="{{ url_for('add_movie') }}" class="btn btn-primary">Add New Movie</a>
+        <a href="{{ url_for('add_admin') }}" class="btn btn-secondary">Add Admin User</a>
+    </div>
+</div>
+
+<h3>All Movies</h3>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Poster</th>
+                <th>Title</th>
+                <th>Genre</th>
+                <th>Release Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for movie in movies %}
+            <tr>
+                <td><img src="{{ movie.image_url or 'https://via.placeholder.com/50x75' }}" alt="{{ movie.title }}" style="width: 50px; height: 75px; object-fit: cover;"></td>
+                <td>{{ movie.title }}</td>
+                <td>{{ movie.genre }}</td>
+                <td>{{ movie.release_date.strftime('%Y-%m-%d') }}</td>
+                <td>
+                    {% if movie.release_date > today %}
+                        <span class="badge bg-warning">Upcoming</span>
+                    {% else %}
+                        <span class="badge bg-success">Now Playing</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('edit_movie', movie_id=movie.id) }}" class="btn btn-sm btn-warning">Edit</a>
+                    <form method="POST" action="{{ url_for('delete_movie', movie_id=movie.id) }}" style="display: inline;">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this movie?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

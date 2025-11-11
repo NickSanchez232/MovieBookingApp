@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Movie{% endblock %}
+
+{% block content %}
+<h2>Edit Movie: {{ movie.title }}</h2>
+
+<form method="POST" class="needs-validation" novalidate>
+    {{ form.hidden_tag() }}
+    
+    <div class="mb-3">
+        {{ form.title.label(class="form-label") }}
+        {{ form.title(class="form-control") }}
+        {% if form.title.errors %}
+            <div class="text-danger">
+                {% for error in form.title.errors %}
+                    <small>{{ error }}</small>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.genre.label(class="form-label") }}
+        {{ form.genre(class="form-control") }}
+        {% if form.genre.errors %}
+            <div class="text-danger">
+                {% for error in form.genre.errors %}
+                    <small>{{ error }}</small>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.director.label(class="form-label") }}
+        {{ form.director(class="form-control") }}
+        {% if form.director.errors %}
+            <div class="text-danger">
+                {% for error in form.director.errors %}
+                    <small>{{ error }}</small>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.cast.label(class="form-label") }}
+        {{ form.cast(class="form-control", rows="3") }}
+        {% if form.cast.errors %}
+            <div class="text-danger">
+                {% for error in form.cast.errors %}
+                    <small>{{ error }}</small>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.synopsis.label(class="form-label") }}
+        {{ form.synopsis(class="form-control", rows="4") }}
+        {% if form.synopsis.errors %}
+            <div class="text-danger">
+                {% for error in form.synopsis.errors %}
+                    <small>{{ error }}</small>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.runtime.label(class="form-label") }}
+        {{ form.runtime(class="form-control") }}
+        {% if form.runtime.errors %}
+            <div class="text-danger">
+                {% for error in form.runtime.errors %}
+                    <small>{{ error }}</small>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="mb-3">
+        {{ form.price.label(class="form-label") }}
+        {{ form.price(class="form-control") }}
+        {% if form.price.errors %}
+            <div class="text-danger">
+                {% for error in form.price.errors %}
+                    <small>{{ error }}</small>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.release_date.label(class="form-label") }}
+        {{ form.release_date(class="form-control") }}
+        {% if form.release_date.errors %}
+            <div class="text-danger">
+                {% for error in form.release_date.errors %}
+                    <small>{{ error }}</small>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.image_url.label(class="form-label") }}
+        {{ form.image_url(class="form-control") }}
+        <small class="form-text text-muted">Enter a URL to the movie poster image</small>
+        {% if form.image_url.errors %}
+            <div class="text-danger">
+                {% for error in form.image_url.errors %}
+                    <small>{{ error }}</small>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.trailer_url.label(class="form-label") }}
+        {{ form.trailer_url(class="form-control") }}
+        <small class="form-text text-muted">Enter a YouTube URL for the trailer</small>
+        {% if form.trailer_url.errors %}
+            <div class="text-danger">
+                {% for error in form.trailer_url.errors %}
+                    <small>{{ error }}</small>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3 form-check">
+        {{ form.is_upcoming(class="form-check-input") }}
+        {{ form.is_upcoming.label(class="form-check-label") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.submit(class="btn btn-primary") }}
+        <a href="{{ url_for('admin_panel') }}" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+{% endblock %}

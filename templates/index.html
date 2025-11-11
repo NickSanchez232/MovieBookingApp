@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to Booking4U{% endblock %}
+
+{% block content %}
+<div class="text-center" style="min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(135deg, #CC0000 0%, #000000 100%); border-radius: 15px; color: white; padding: 50px;">
+    <h1 class="display-3 mb-4">Welcome to Booking4U</h1>
+    <p class="lead mb-5">Your convenient movie ticket booking experience starts here!</p>
+    
+    <div class="d-flex gap-3">
+        <a href="{{ url_for('login') }}" class="btn btn-light btn-lg px-5">Login</a>
+        <a href="{{ url_for('register') }}" class="btn btn-warning btn-lg px-5">Create Account</a>
+    </div>
+    
+    <div class="mt-5">
+        <p><small>Forgot your credentials?</small></p>
+        <a href="{{ url_for('forgot_username') }}" class="text-white me-3">Forgot Username</a>
+        <a href="{{ url_for('forgot_password') }}" class="text-white">Forgot Password</a>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4 text-center mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h3>🎬 Browse Movies</h3>
+                <p>Explore current and upcoming movies across 6 theater locations</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 text-center mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h3>🎟️ Easy Booking</h3>
+                <p>Book tickets online and skip the line at the theater</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 text-center mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h3>📱 Digital Tickets</h3>
+                <p>Print or display tickets on your phone for quick entry</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

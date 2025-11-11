@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Order History{% endblock %}
+
+{% block content %}
+<h2>Your Order History</h2>
+
+{% if orders %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Movie</th>
+                    {# 🌟 ADDED COLUMN: Show Date #}
+                    <th>Show Date</th> 
+                    <th>Theater</th>
+                    <th>Showtime</th>
+                    <th>Seats</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>#{{ order.id }}</td>
+                    <td>{{ order.movie.title }}</td>
+                    {# 🌟 ADDED DATA: Show Date #}
+                    <td>{{ order.show_date.strftime('%b %d, %Y') }}</td>
+                    <td>{{ order.theater }}</td>
+                    <td>{{ order.showtime }}</td>
+                    <td>{{ order.seats }}</td>
+                    <td>${{ "%.2f"|format(order.total_price) }}</td>
+                    <td>
+                        <span class="badge bg-{% if order.status == 'unused' %}warning{% elif order.status == 'refunded' %}secondary{% else %}success{% endif %}">
+                            {{ order.status|capitalize }}
+                        </span>
+                    </td>
+                    <td>
+                        {# Action Button Logic #}
+                        {% if order.status == 'unused' %}
+                        <form method="POST" action="{{ url_for('refund_order', order_id=order.id) }}" style="display: inline;">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to request a refund?')">Request Refund</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        <p>You haven't made any bookings yet.</p>
+        <a href="{{ url_for('current_movies') }}" class="btn btn-primary">Browse Movies</a>
+    </div>
+{% endif %}
+{% endblock %}
