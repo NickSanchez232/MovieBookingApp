@@ -444,12 +444,20 @@ def admin_panel():
         flash('Access denied. Admin privileges required.', 'danger')
         return redirect(url_for('home'))
     
+    # Calculate statistics
+    total_movies = Movie.query.count()
+    total_users = User.query.count()
+    total_orders = Order.query.count()
     total_tickets = db.session.query(db.func.sum(Order.num_tickets)).filter(Order.status != 'refunded').scalar() or 0
     total_revenue = db.session.query(db.func.sum(Order.total_price)).filter(Order.status != 'refunded').scalar() or 0
+    
+    # Get all movies
     movies = Movie.query.all()
-
     
     return render_template('admin_panel.html', 
+                          total_movies=total_movies,
+                          total_users=total_users,
+                          total_orders=total_orders,
                           total_tickets=total_tickets, 
                           total_revenue=total_revenue,
                           movies=movies,

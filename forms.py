@@ -63,10 +63,25 @@ class BookTicketForm(FlaskForm):
 
 class CheckoutForm(FlaskForm):
     payment_method = SelectField('Payment Method', choices=[
+        ('', 'Select Payment Method'),
         ('credit', 'Credit Card'),
         ('paypal', 'PayPal'),
         ('venmo', 'Venmo')
     ], validators=[DataRequired()])
+    
+    # Credit Card fields
+    card_number = StringField('Card Number', validators=[Length(max=16)])
+    expiration_date = StringField('Expiration Date (MM/YY)', validators=[Length(max=5)])
+    cvv = StringField('CVV', validators=[Length(max=3)])
+    
+    # PayPal fields
+    paypal_email = StringField('PayPal Email', validators=[Email()])
+    paypal_password = PasswordField('PayPal Password')
+    
+    # Venmo fields
+    venmo_username = StringField('Venmo Username')
+    venmo_password = PasswordField('Venmo Password')
+    
     submit = SubmitField('Complete Purchase')
 
 

@@ -27,12 +27,64 @@
             <div class="card-body">
                 <h4 class="card-title mb-4">Payment Information</h4>
                 
-                <form method="POST">
+                <form method="POST" id="checkout-form">
                     {{ form.hidden_tag() }}
                     
                     <div class="mb-4">
                         {{ form.payment_method.label(class="form-label") }}
-                        {{ form.payment_method(class="form-control form-select") }}
+                        {{ form.payment_method(class="form-control form-select", id="payment-method-select") }}
+                        {% if form.payment_method.errors %}
+                            <div class="text-danger">
+                                {% for error in form.payment_method.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Credit Card Fields -->
+                    <div id="credit-card-fields" class="payment-fields" style="display: none;">
+                        <h5 class="mb-3">Credit Card Information</h5>
+                        <div class="mb-3">
+                            {{ form.card_number.label(class="form-label") }}
+                            {{ form.card_number(class="form-control", placeholder="1234 5678 9012 3456", maxlength="16") }}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.expiration_date.label(class="form-label") }}
+                                {{ form.expiration_date(class="form-control", placeholder="MM/YY", maxlength="5") }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.cvv.label(class="form-label") }}
+                                {{ form.cvv(class="form-control", placeholder="123", maxlength="3") }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PayPal Fields -->
+                    <div id="paypal-fields" class="payment-fields" style="display: none;">
+                        <h5 class="mb-3">PayPal Login</h5>
+                        <div class="mb-3">
+                            {{ form.paypal_email.label(class="form-label") }}
+                            {{ form.paypal_email(class="form-control", placeholder="your@email.com") }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.paypal_password.label(class="form-label") }}
+                            {{ form.paypal_password(class="form-control", placeholder="Enter your PayPal password") }}
+                        </div>
+                    </div>
+                    
+                    <!-- Venmo Fields -->
+                    <div id="venmo-fields" class="payment-fields" style="display: none;">
+                        <h5 class="mb-3">Venmo Login</h5>
+                        <div class="mb-3">
+                            {{ form.venmo_username.label(class="form-label") }}
+                            {{ form.venmo_username(class="form-control", placeholder="@username") }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.venmo_password.label(class="form-label") }}
+                            {{ form.venmo_password(class="form-control", placeholder="Enter your Venmo password") }}
+                        </div>
                     </div>
                     
                     <div class="alert alert-info">
@@ -53,4 +105,30 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const paymentMethodSelect = document.getElementById('payment-method-select');
+    const creditCardFields = document.getElementById('credit-card-fields');
+    const paypalFields = document.getElementById('paypal-fields');
+    const venmoFields = document.getElementById('venmo-fields');
+    
+    paymentMethodSelect.addEventListener('change', function() {
+        // Hide all payment fields
+        creditCardFields.style.display = 'none';
+        paypalFields.style.display = 'none';
+        venmoFields.style.display = 'none';
+        
+        // Show selected payment method fields
+        const selectedMethod = this.value;
+        if (selectedMethod === 'credit') {
+            creditCardFields.style.display = 'block';
+        } else if (selectedMethod === 'paypal') {
+            paypalFields.style.display = 'block';
+        } else if (selectedMethod === 'venmo') {
+            venmoFields.style.display = 'block';
+        }
+    });
+});
+</script>
 {% endblock %}
